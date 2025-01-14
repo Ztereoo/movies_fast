@@ -13,7 +13,7 @@ class Movie(Base):
     genre: Mapped[str]= mapped_column(String, nullable=True)
     reviews: Mapped[list['Review']] = relationship('Review', back_populates='movie')
     @hybrid_property
-    def average_rating(self) ->:
+    def average_rating(self) -> float:
         if self.reviews:
          return sum(review.rating for review in self.reviews)/len(self.reviews)
         return 0.0
