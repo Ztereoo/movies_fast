@@ -11,5 +11,5 @@ class Review(Base):
     rating: Mapped[float] = mapped_column(Float, nullable=False)
     сomment: Mapped[str] = mapped_column(Text)
 
-    movie: Mapped['Movie'] = relationship('Movie', back_populates='reviews')
-    user: Mapped['User'] = relationship('User', back_populates='reviews')
+    # movie: Mapped['Movie'] = relationship('Movie', back_populates='reviews')
+    # user: Mapped['User'] = relationship('User', back_populates='reviews')
