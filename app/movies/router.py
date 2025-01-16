@@ -26,6 +26,11 @@ async def get_movies():
 async def get_by_id(id):
     return await Movies_Dao.find_by_id(id)
 
+@router.delete('/{id}')
+async def delete_item(id):
+    return await Movies_Dao.delete_item(id)
+
+
 # @router.get('by_id/{id}')
 # async def get_movie_by_id(id):
 #     async with async_session_maker() as session:
