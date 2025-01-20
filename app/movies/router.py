@@ -27,14 +27,10 @@ async def delete_item(id):
 
 @router.put('/{id}')
 async def update_item(id, payload:SUpdate):
-    update_data = payload.dict(exclude_unset=True)
+    update_data = payload.dict()
     return await Movies_Dao.update(id, **update_data)
 
 
-
 @router.post('')
-async def add_movies(data: SMovies):
-    async with async_session_maker() as session:
-        stmt = insert(Movie).values(**data.dict())
-        await session.execute(stmt)
-        await session.commit()
+async def add_item(data:SMovies):
+    return await Movies_Dao.add_item(**data.dict())
