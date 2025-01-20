@@ -28,15 +28,15 @@ class BaseDao():
         async with async_session_maker() as session:
             stmt = select(cls.model).filter_by(**data)
             result = await session.execute(stmt)
-            return result.scalar().one_or_none()
+            return result.scalar_one_or_none()
 
     @classmethod
     async def add_item(cls, **data):
         async with async_session_maker() as session:
             stmt = insert(cls.model).values(**data)
-            result = await session.execute(stmt)
+            await session.execute(stmt)
             await session.commit()
-            return result
+
 
     @classmethod
     async def update(cls, model_id, **kwargs):
