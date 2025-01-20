@@ -16,6 +16,7 @@ class Movie(Base):
     genre: Mapped[str]= mapped_column(String, nullable=True)
 
     # reviews: Mapped[list['Review']] = relationship('Review', back_populates='movie')
+
     # @hybrid_property
     # def average_rating(self) -> float:
     #     if self.reviews:
