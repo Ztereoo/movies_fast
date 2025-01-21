@@ -21,7 +21,7 @@ class BaseDao():
         async with async_session_maker() as session:
             stmt = select(cls.model).filter_by(id=model_id)
             result = await session.execute(stmt)
-            return result.scalars().one_or_none()
+            return result.scalar_one_or_none()
 
     @classmethod
     async def find_selected(cls, **data):

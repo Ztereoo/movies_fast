@@ -27,3 +27,9 @@ async def login(response: Response, user_data: SUSerLogin):
     token = create_access_token({'sub': str(user.id)})
     response.set_cookie("booking_access_token", token, httponly=True)
     return token
+@router.get('by_id/{id}')
+async def get_user_by_id(id:int):
+    return await UserDao.find_by_id(id)
+
+
+
