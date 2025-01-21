@@ -1,0 +1,2 @@
+KEY= 'asdlajsdasASDASD'
+ALGORITHM='HS256'

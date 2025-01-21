@@ -5,3 +5,7 @@ class SUserRegister(BaseModel):
     name:str
     email: EmailStr
     password: str
+
+class SUSerLogin(BaseModel):
+    email: EmailStr
+    password: str
