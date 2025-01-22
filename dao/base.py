@@ -7,12 +7,12 @@ class BaseDao():
     model = None
 
     @classmethod
-    async def find_all(cls):
+    async def find_all(cls, **filter_by):
         if not cls.model:
             raise HTTPException(status_code=500, detail='No such model')
 
         async with async_session_maker() as session:
-            stmt = select(cls.model)
+            stmt = select(cls.model).filter_by(**filter_by)
             result = await session.execute(stmt)
             return result.scalars().all()
 

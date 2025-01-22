@@ -9,7 +9,7 @@ class Review(Base):
     movie_id: Mapped[int] = mapped_column(ForeignKey('movies.id'), nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
     rating: Mapped[float] = mapped_column(Float, nullable=False)
-    сomment: Mapped[str] = mapped_column(Text)
+    comment: Mapped[str] = mapped_column(Text)
 
     # movie: Mapped['Movie'] = relationship('Movie', back_populates='reviews')
     # user: Mapped['User'] = relationship('User', back_populates='reviews')
