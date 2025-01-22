@@ -1,7 +1,7 @@
+import time
+
 from fastapi import APIRouter
-from app.movies.models import Movie
-from app.database import async_session_maker
-from sqlalchemy import select, insert
+from fastapi_cache.decorator import cache
 from app.movies.schemas import SMovies, SUpdate
 from app.movies.dao import Movies_Dao
 
@@ -10,27 +10,30 @@ router = APIRouter(
     tags=['movies']
 )
 
+
 @router.get('')
-async def get_movies():
+@cache(expire=20)
+async def get_movies() -> list[SMovies]:
+    time.sleep(3)
     return await Movies_Dao.find_all()
 
 
 @router.get('/{id}')
-async def get_by_id(id):
+async def get_by_id(id: int) -> SMovies:
     return await Movies_Dao.find_by_id(id)
 
 
 @router.delete('/{id}')
-async def delete_item(id):
+async def delete_item(id: int):
     return await Movies_Dao.delete_item(id)
 
 
 @router.put('/{id}')
-async def update_item(id, payload:SUpdate):
+async def update_item(id: int, payload: SUpdate) -> SMovies:
     update_data = payload.dict()
     return await Movies_Dao.update(id, **update_data)
 
 
 @router.post('')
-async def add_item(data:SMovies):
+async def add_item(data: SMovies) -> None:
     return await Movies_Dao.add_item(**data.dict())

@@ -1,9 +1,6 @@
 from app.database import Base
 from sqlalchemy import String,Integer,func,Float
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from sqlalchemy.ext.hybrid import hybrid_property
-
-
 
 
 
@@ -14,7 +11,6 @@ class Movie(Base):
     description: Mapped[str] = mapped_column(String, nullable=False)
     year: Mapped[int] = mapped_column(Integer, nullable=False)
     genre: Mapped[str]= mapped_column(String, nullable=True)
-
 
 
 

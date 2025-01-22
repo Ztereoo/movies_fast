@@ -3,9 +3,11 @@ from fastapi import FastAPI,Depends
 from app.movies.router import router as router_movies
 from app.users.router import router as router_users
 from app.reviews.router import router as router_reviews
-from app.users.models import User
-from app.users.dependencies import get_current_user
-from dao.base import BaseDao
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+
+from redis import asyncio as aioredis
 
 app= FastAPI()
 
@@ -14,9 +16,11 @@ app.include_router(router_movies)
 app.include_router(router_users)
 app.include_router(router_reviews)
 
-# @app.get('/rev')
-# async def get_reviews(user: User= Depends(get_current_user)):
-#     print(user, type(user), user.email)
+@app.on_event('startup')
+async def startup():
+    redis= aioredis.from_url("redis://localhost", encoding="utf-8",decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix="cache")
+
 
 
 
