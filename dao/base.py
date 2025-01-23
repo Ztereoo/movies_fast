@@ -30,12 +30,23 @@ class BaseDao():
             result = await session.execute(stmt)
             return result.scalar_one_or_none()
 
+    # @classmethod
+    # async def add_item(cls, **data):
+    #     async with async_session_maker() as session:
+    #         stmt = insert(cls.model).values(**data)
+    #         await session.execute(stmt)
+    #         await session.commit()
+
     @classmethod
     async def add_item(cls, **data):
         async with async_session_maker() as session:
-            stmt = insert(cls.model).values(**data)
-            await session.execute(stmt)
+            new_obj= cls.model(**data)
+            session.add(new_obj)
             await session.commit()
+            await session.refresh(new_obj)
+            return new_obj
+
+
 
 
     @classmethod
