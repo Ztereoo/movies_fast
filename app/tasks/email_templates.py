@@ -13,7 +13,7 @@ def email_new_user_created(
     email['To'] = email_to
     email.set_content(
         f""" 
-        <h1>Здравствуйте, {user['name']}. Вы зарегистрировались на нашем сервисе c почтовым ящиком {user['email']}.</h1>
+        <h3>Здравствуйте, {user['name']}. Вы зарегистрировались на нашем сервисе c почтовым ящиком {user['email']}.</h3>
         """,
         subtype='html'
     )

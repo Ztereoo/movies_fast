@@ -5,6 +5,8 @@ from app.movies.router import router as router_movies
 from app.users.router import router as router_users
 from app.reviews.router import router as router_reviews
 from app.images.router import router as router_images
+from app.users.models import User
+from database import engine
 
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
@@ -12,7 +14,17 @@ from fastapi_cache.decorator import cache
 
 from redis import asyncio as aioredis
 
+from sqladmin import Admin, ModelView
+from app.admin.views import UserAdmin
+
 app = FastAPI()
+
+admin=Admin(app,engine)
+
+
+
+
+admin.add_view(UserAdmin)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
