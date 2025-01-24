@@ -15,7 +15,7 @@ from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
 
 from sqladmin import Admin, ModelView
-from app.admin.views import UserAdmin
+from app.admin.views import UserAdmin,MovieAdmin,ReviewAdmin
 
 app = FastAPI()
 
@@ -25,6 +25,8 @@ admin=Admin(app,engine)
 
 
 admin.add_view(UserAdmin)
+admin.add_view(MovieAdmin)
+admin.add_view(ReviewAdmin)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
