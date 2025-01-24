@@ -24,7 +24,7 @@ class MovieAdmin(ModelView, model=Movie):
 
 
 class ReviewAdmin(ModelView, model=Review):
-    column_list = [c.name for c in Review.__table__.c]
+    column_list = [c.name for c in Review.__table__.c]+ [Review.user]+ [Review.movie]
     name='Review'
     name_plural = 'Reviews'
     page_size = 10
