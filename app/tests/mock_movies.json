@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "title": "Dumb and Dumber",
+        "description": "Famous comedy with famous Jim Carrey",
+        "year": 1992,
+        "genre": "Comedy"
+    },
+    {
+        "id": 2,
+        "title": "The Dark Knight",
+        "description": "Batman faces Joker",
+        "year": 2008,
+        "genre": "Action"
+    },
+    {
+        "id": 3,
+        "title": "Interstellar",
+        "description": "A journey beyond the stars",
+        "year": 2014,
+        "genre": "Sci-Fi"
+    },
+    {
+        "id": 4,
+        "title": "The Matrix",
+        "description": "Reality is a simulation",
+        "year": 1999,
+        "genre": "Sci-Fi"
+    },
+    {
+        "id": 5,
+        "title": "The Godfather",
+        "description": "Rise of the mafia family",
+        "year": 1972,
+        "genre": "Crime"
+    },
+    {
+        "id": 6,
+        "title": "Terminator",
+        "description": "Classic movie",
+        "year": 1987,
+        "genre": "Action"
+    }
+]

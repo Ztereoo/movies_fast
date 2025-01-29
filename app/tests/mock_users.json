@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "name": "Alice",
+        "email": "alice@example.com",
+        "hashed_password": "hashedpassword1"
+    },
+    {
+        "id": 2,
+        "name": "Bob",
+        "email": "bob@example.com",
+        "hashed_password": "hashedpassword2"
+    },
+    {
+        "id": 3,
+        "name": "Charlie",
+        "email": "charlie@example.com",
+        "hashed_password": "hashedpassword3"
+    },
+    {
+        "id": 4,
+        "name": "David",
+        "email": "david@example.com",
+        "hashed_password": "hashedpassword4"
+    },
+    {
+        "id": 5,
+        "name": "Eve",
+        "email": "eve@example.com",
+        "hashed_password": "hashedpassword5"
+    },
+    {
+        "id": 6,
+        "name": "Alex",
+        "email": "test@test.com",
+        "hashed_password": "$2b$12$NZR4qCZaohmEEhhZS3OTi.sQ8nut..yB9.GldjuF6dX/zgiSiXG0m"
+    },
+    {
+        "id": 7,
+        "name": "Ben",
+        "email": "test2@test2.com",
+        "hashed_password": "$2b$12$MAVOz.TSG4taZRL6.X/TTONSIpV/ddfVSL8/8z8fK6ZebuYrOUgmq"
+    },
+    {
+        "id": 8,
+        "name": "Mel",
+        "email": "mel@example.com",
+        "hashed_password": "$2b$12$byug6MzKyNG2uGUpOg270eozefNLlte3pxiUa78/RrAvAERBSM.Ay"
+    }
+]
