@@ -18,7 +18,9 @@ async def test_registration(name, email, password, status_code, ac: AsyncClient)
 
 @pytest.mark.parametrize("email, password, status_code", [
     ("test@test.com", "test", 200),
+    ("test2@test2.com", "test2", 200),
     ("test@test.com", "tedst", 401),
+    ("tepst@test.com", "test", 401),
 ]
                          )
 async def test_login(email, password, status_code, ac: AsyncClient):
