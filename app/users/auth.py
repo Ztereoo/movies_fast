@@ -1,4 +1,5 @@
 from passlib.context import CryptContext
+from fastapi import HTTPException
 # import jwt
 from jose import jwt
 from datetime import datetime, timedelta
@@ -31,6 +32,9 @@ def create_access_token(data: dict) -> str:
 
 async def authenticate_user(email: EmailStr, password: str):
     user = await UserDao.find_selected(email=email)
-    if not user and not verify_password(password, user.password):
-        return None
+    if not user:
+        raise HTTPException(status_code=401, detail='No such user')
+    if not verify_password(password, user.hashed_password):
+        raise HTTPException(status_code=401, detail='Incorrect password')
     return user
+
