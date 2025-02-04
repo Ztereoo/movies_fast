@@ -3,13 +3,13 @@ from sqlalchemy import select, insert
 from fastapi import HTTPException
 
 
-class BaseDao():
+class BaseDao:
     model = None
 
     @classmethod
     async def find_all(cls, **filter_by):
         if not cls.model:
-            raise HTTPException(status_code=500, detail='No such model')
+            raise HTTPException(status_code=500, detail="No such model")
 
         async with async_session_maker() as session:
             stmt = select(cls.model).filter_by(**filter_by)
@@ -30,43 +30,32 @@ class BaseDao():
             result = await session.execute(stmt)
             return result.scalar_one_or_none()
 
-    # @classmethod
-    # async def add_item(cls, **data):
-    #     async with async_session_maker() as session:
-    #         stmt = insert(cls.model).values(**data)
-    #         await session.execute(stmt)
-    #         await session.commit()
-
     @classmethod
     async def add_item(cls, **data):
         async with async_session_maker() as session:
-            new_obj= cls.model(**data)
+            new_obj = cls.model(**data)
             session.add(new_obj)
             await session.commit()
             await session.refresh(new_obj)
             return new_obj
 
-
-
-
     @classmethod
     async def update(cls, model_id, **kwargs):
         async with async_session_maker() as session:
-            stmt= select(cls.model).filter_by(id= model_id)
-            result= await session.execute(stmt)
-            item= result.scalars().one_or_none()
+            stmt = select(cls.model).filter_by(id=model_id)
+            result = await session.execute(stmt)
+            item = result.scalars().one_or_none()
             if not item:
-                return HTTPException(status_code=400, detail='No such item')
+                return HTTPException(status_code=400, detail="No such item")
             for key, value in kwargs.items():
                 if hasattr(item, key):
-                    setattr(item,key,value)
+                    setattr(item, key, value)
                 else:
-                    raise HTTPException(status_code=400,detail='No such key')
+                    raise HTTPException(status_code=400, detail="No such key")
             session.add(item)
             await session.commit()
             await session.refresh(item)
         return item
-
 
     @classmethod
     async def delete_item(cls, model_id):
@@ -77,5 +66,5 @@ class BaseDao():
             if item:
                 await session.delete(item)
                 await session.commit()
-                return f'Item deleted'
-            return HTTPException(status_code=400, detail='no item with such id')
+                return f"Item deleted"
+            return HTTPException(status_code=400, detail="no item with such id")
