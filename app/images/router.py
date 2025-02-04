@@ -1,5 +1,7 @@
-from fastapi import UploadFile, APIRouter
 import shutil
+
+from fastapi import APIRouter, UploadFile
+
 from app.tasks.tasks import resize_pic
 
 router = APIRouter(

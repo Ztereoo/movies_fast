@@ -2,8 +2,9 @@ import time
 
 from fastapi import APIRouter
 from fastapi_cache.decorator import cache
-from app.movies.schemas import SMovies, SUpdate
+
 from app.movies.dao import Movies_Dao
+from app.movies.schemas import SMovies, SUpdate
 
 router = APIRouter(
     prefix='/movies',

@@ -1,10 +1,14 @@
-from app.tasks.celery import celery
-from PIL import Image
-from pathlib import Path
-from app.tasks.email_templates import email_new_user_created
-from pydantic import EmailStr
 import smtplib
-from config import SMTP_HOST,SMTP_PORT,SMTP_USER,SMTP_PASS
+from pathlib import Path
+
+from PIL import Image
+from pydantic import EmailStr
+
+from app.tasks.celery import celery
+from app.tasks.email_templates import email_new_user_created
+from config import SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER
+
+
 @celery.task
 def resize_pic(
         path: str,

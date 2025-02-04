@@ -1,14 +1,13 @@
-from fastapi import APIRouter, HTTPException, Response, Depends
-
-from app.users.models import User
-from app.users.schemas import SUserRegister, SUSerLogin
-from app.users.dao import UserDao
-from app.users.auth import get_password_hash
-from app.users.auth import authenticate_user, create_access_token
-from app.users.dependencies import get_current_user
-from app.tasks.tasks import send_confirmation_to_registered_user
-
+from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import parse_obj_as
+
+from app.tasks.tasks import send_confirmation_to_registered_user
+from app.users.auth import (authenticate_user, create_access_token,
+                            get_password_hash)
+from app.users.dao import UserDao
+from app.users.dependencies import get_current_user
+from app.users.models import User
+from app.users.schemas import SUSerLogin, SUserRegister
 
 router = APIRouter(
     prefix='/auth',

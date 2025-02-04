@@ -5,13 +5,13 @@ import pytest
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from sqlalchemy import insert
-from app.main import app as fastapi_app
 
 from app.database import Base, async_session_maker, engine
-from config import MODE
+from app.main import app as fastapi_app
+from app.movies.models import Movie
 from app.reviews.models import Review
 from app.users.models import User
-from app.movies.models import Movie
+from config import MODE
 
 
 @pytest.fixture(scope="session", autouse=True)

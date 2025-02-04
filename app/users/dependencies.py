@@ -1,8 +1,11 @@
-from fastapi import Request, HTTPException, Depends
-from jose import jwt, JWTError
-from config import KEY, ALGORITHM
 from datetime import datetime
+
+from fastapi import Depends, HTTPException, Request
+from jose import JWTError, jwt
+
 from app.users.dao import UserDao
+from config import ALGORITHM, KEY
+
 
 def get_token(request: Request):
     token= request.cookies.get('booking_access_token')

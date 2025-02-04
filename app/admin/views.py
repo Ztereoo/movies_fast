@@ -1,7 +1,8 @@
 from sqladmin import ModelView
-from app.users.models import User
+
 from app.movies.models import Movie
 from app.reviews.models import Review
+from app.users.models import User
 
 
 class UserAdmin(ModelView, model=User):

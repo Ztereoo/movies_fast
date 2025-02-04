@@ -1,5 +1,7 @@
 import pytest
+
 from app.users.dao import UserDao
+
 
 @pytest.mark.parametrize("user_id,email,exists",[
     (1,'alice@example.com', True),

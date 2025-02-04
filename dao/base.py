@@ -1,6 +1,7 @@
-from app.database import async_session_maker
-from sqlalchemy import select, insert
 from fastapi import HTTPException
+from sqlalchemy import insert, select
+
+from app.database import async_session_maker
 
 
 class BaseDao:

@@ -1,22 +1,21 @@
-import uvicorn
-from fastapi import FastAPI, Depends
-from fastapi.staticfiles import StaticFiles
-from app.movies.router import router as router_movies
-from app.users.router import router as router_users
-from app.reviews.router import router as router_reviews
-from app.images.router import router as router_images
-from app.users.models import User
-from database import engine
 from contextlib import asynccontextmanager
 
+import uvicorn
+from database import engine
+from fastapi import Depends, FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache.decorator import cache
-
 from redis import asyncio as aioredis
-
 from sqladmin import Admin, ModelView
-from app.admin.views import UserAdmin,MovieAdmin,ReviewAdmin
+
+from app.admin.views import MovieAdmin, ReviewAdmin, UserAdmin
+from app.images.router import router as router_images
+from app.movies.router import router as router_movies
+from app.reviews.router import router as router_reviews
+from app.users.models import User
+from app.users.router import router as router_users
 
 
 @asynccontextmanager

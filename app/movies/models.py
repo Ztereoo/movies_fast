@@ -1,7 +1,7 @@
-from app.database import Base
-from sqlalchemy import String,Integer,func,Float
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy import Float, Integer, String, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.database import Base
 
 
 class Movie(Base):

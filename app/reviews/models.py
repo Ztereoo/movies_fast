@@ -1,6 +1,7 @@
+from sqlalchemy import Float, ForeignKey, Integer, Text
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.database import Base
-from sqlalchemy.orm import Mapped, mapped_column,relationship
-from sqlalchemy import Integer, ForeignKey, Text, Float
 
 
 class Review(Base):
