@@ -15,7 +15,6 @@ router = APIRouter(
 @router.get('')
 @cache(expire=20)
 async def get_movies() -> list[SMovies]:
-    time.sleep(3)
     return await Movies_Dao.find_all()
 
 
@@ -36,5 +35,5 @@ async def update_item(id: int, payload: SUpdate) -> SMovies:
 
 
 @router.post('')
-async def add_item(data: SMovies) -> None:
+async def add_item(data: SMovies):
     return await Movies_Dao.add_item(**data.dict())

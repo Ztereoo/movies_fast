@@ -1,3 +1,9 @@
 [tool.black]
-line-length= 88
-target-version=['py39']
+line-length = 88
+target-version = ['py39']
+
+[tool.autoflake]
+check_diff = true
+
+[tool.pyright]
+include = ["app"]
