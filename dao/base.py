@@ -41,6 +41,12 @@ class BaseDao:
             return new_obj
 
     @classmethod
+    async def add_csv_data(cls, movies):
+        async with async_session_maker() as session:
+            session.add_all(movies)
+            await session.commit()
+
+    @classmethod
     async def update(cls, model_id, **kwargs):
         async with async_session_maker() as session:
             stmt = select(cls.model).filter_by(id=model_id)

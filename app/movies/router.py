@@ -1,10 +1,11 @@
-import time
-
-from fastapi import APIRouter
+import csv
+from fastapi import APIRouter, File, UploadFile, HTTPException
 from fastapi_cache.decorator import cache
+from io import StringIO
 
 from app.movies.dao import Movies_Dao
 from app.movies.schemas import SMovies, SUpdate
+from app.movies.models import Movie
 
 router = APIRouter(
     prefix='/movies',
@@ -37,3 +38,31 @@ async def update_item(id: int, payload: SUpdate) -> SMovies:
 @router.post('')
 async def add_item(data: SMovies):
     return await Movies_Dao.add_item(**data.dict())
+
+
+@router.post('/add_from_file')
+async def add_from_file(file: UploadFile = File(...)):
+    if not file.filename.endswith('.csv'):
+        raise HTTPException(status_code=400, detail='Not CSV file')
+
+    content = await file.read()
+    csv_file = StringIO(content.decode('utf-8'))
+    csv_reader = csv.reader(csv_file)
+
+    next(csv_reader, None)
+
+    movies = []
+    for row in csv_reader:
+        if len(row) < 4:
+            continue
+        title, description, year, genre = row
+        movie = Movie(title=title, description=description, year=int(year), genre=genre)
+        movies.append(movie)
+    if not movies:
+        raise HTTPException(status_code=400, detail='No data to add from CSV')
+    await Movies_Dao.add_csv_data(movies)
+    return f"Movies successfully added to db"
+
+
+
+
