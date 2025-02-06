@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
-from pydantic import parse_obj_as
 
 from app.tasks.tasks import send_confirmation_to_registered_user
 from app.users.auth import (authenticate_user, create_access_token,

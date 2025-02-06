@@ -1,11 +1,12 @@
 import csv
-from fastapi import APIRouter, File, UploadFile, HTTPException
-from fastapi_cache.decorator import cache
 from io import StringIO
 
+from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi_cache.decorator import cache
+
 from app.movies.dao import Movies_Dao
-from app.movies.schemas import SMovies, SUpdate
 from app.movies.models import Movie
+from app.movies.schemas import SMovies, SUpdate
 
 router = APIRouter(
     prefix='/movies',

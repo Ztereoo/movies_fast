@@ -2,19 +2,17 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from database import engine
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
-from sqladmin import Admin, ModelView
+from sqladmin import Admin
 
 from app.admin.views import MovieAdmin, ReviewAdmin, UserAdmin
 from app.images.router import router as router_images
 from app.movies.router import router as router_movies
 from app.reviews.router import router as router_reviews
-from app.users.models import User
 from app.users.router import router as router_users
 
 
@@ -41,13 +39,6 @@ app.include_router(router_movies)
 app.include_router(router_users)
 app.include_router(router_reviews)
 app.include_router(router_images)
-
-
-# @app.on_event('startup')
-# async def startup():
-#     redis = aioredis.from_url("redis://localhost", encoding="utf-8", decode_responses=True)
-#     FastAPICache.init(RedisBackend(redis), prefix="cache")
-
 
 
 if __name__ == "__main__":
