@@ -2,7 +2,7 @@ FROM python:3.11.4
 
 RUN mkdir /movies
 
-WORKDIR /movies
+WORKDIR /docker composemovies
 
 COPY requirements.txt .
 
