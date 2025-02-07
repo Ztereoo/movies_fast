@@ -2,3 +2,5 @@
 /.idea/
 config.py
 /config.py
+old_config.py
+.env

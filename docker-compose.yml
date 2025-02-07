@@ -1,4 +1,4 @@
-version: '2.32.4-desktop.1'
+
 services:
   db:
     image: nouchka/sqlite3:latest
@@ -7,4 +7,23 @@ services:
       - ./app:/app
     environment:
       - SQLITE_DATABASE_PATH=/app/movies.db
+
+  redis:
+    image: redis:7.2.7
+    container_name: redis_cache
+    ports: - "6379:6379"
+
+  movies:
+    container_name: movies_app
+    build:
+      context: .
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+
+
+
+
 
