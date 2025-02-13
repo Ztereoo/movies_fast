@@ -1,6 +1,8 @@
 /venv/
-/.idea/
+/.venv/
+
 config.py
-/config.py
-old_config.py
+*.config.py
 .env
+.env.*
+/.idea/
