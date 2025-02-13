@@ -1,6 +1,5 @@
 /venv/
 /.venv/
-
 config.py
 *.config.py
 .env
