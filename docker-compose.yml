@@ -10,8 +10,7 @@ services:
 
   redis:
     image: redis:7.2.7
-    container_name: redis_cache
-    ports: - "6379:6379"
+    container_name: redis
 
   movies:
     container_name: movies_app
@@ -22,6 +21,54 @@ services:
     depends_on:
       - db
       - redis
+    command: [
+      "gunicorn",
+      "app.main:app",
+      "--workers", "4",
+      "--worker-class", "uvicorn.workers.UvicornWorker",
+      "--bind", "0.0.0.0:8000"
+    ]
+
+    ports:
+      - 7777:8000
+
+  celery:
+    container_name: celery
+    build:
+      context: .
+    command: [
+      "celery",
+      "--app=app.tasks.celery:celery",
+      "worker",
+      "-l",
+      "info"
+    ]
+    env_file:
+      - .env
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+
+  flower:
+    container_name: flower
+    build:
+      context: .
+    command: [
+      "celery",
+      "--app=app.tasks.celery:celery",
+      "flower",
+    ]
+    env_file:
+      - .env
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+
+
+
+
 
 
 
