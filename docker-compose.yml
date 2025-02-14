@@ -1,70 +1,64 @@
 
 services:
-  db:
-    image: nouchka/sqlite3:latest
-    container_name: sqlite_database
+  web:
+    build: .
+    container_name: my_fastapi_app
+    ports:
+      - "8000:8000"
     volumes:
-      - ./app:/app
+      - .:/movies
+      - ./movies.db:/movies.db
+      - ./alembic:/movies/alembic
+    depends_on:
+      - redis
     environment:
-      - SQLITE_DATABASE_PATH=/app/movies.db
+      - DATABASE_URL=sqlite+aiosqlite:///movies.db
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
 
   redis:
-    image: redis:7.2.7
+    image: redis:latest
     container_name: redis
-
-  movies:
-    container_name: movies_app
-    build:
-      context: .
-    env_file:
-      - .env
-    depends_on:
-      - db
-      - redis
-    command: [
-      "gunicorn",
-      "app.main:app",
-      "--workers", "4",
-      "--worker-class", "uvicorn.workers.UvicornWorker",
-      "--bind", "0.0.0.0:8000"
-    ]
-
     ports:
-      - 7777:8000
+      - "6379:6379"
 
   celery:
-    container_name: celery
-    build:
-      context: .
-    command: [
-      "celery",
-      "--app=app.tasks.celery:celery",
-      "worker",
-      "-l",
-      "info"
-    ]
-    env_file:
-      - .env
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
+    build: .
+    container_name: celery_worker
     depends_on:
       - redis
+    command: celery -A app.tasks.celery worker --loglevel=info
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - .:/movies
 
   flower:
+    image: mher/flower
     container_name: flower
-    build:
-      context: .
-    command: [
-      "celery",
-      "--app=app.tasks.celery:celery",
-      "flower",
-    ]
-    env_file:
-      - .env
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       - redis
+    ports:
+      - "5555:5555"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    command: celery -A app.tasks.celery flower
+#    command: flower --broker=redis://redis:6379/0
+
+  migrations:
+    build: .
+    container_name: alembic_migrations
+    command: alembic upgrade head
+    depends_on:
+      - web
+    volumes:
+      - .:/movies
+      - ./alembic:/movies/alembic
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///movies.db
+
 
 
 
