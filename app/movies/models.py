@@ -1,6 +1,7 @@
-from sqlalchemy import Integer, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import Integer, String, select, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship, column_property
 
+from app.reviews.models import Review
 from app.database import Base
 
 
@@ -14,6 +15,12 @@ class Movie(Base):
 
     reviews= relationship('Review', back_populates='movie')
 
+    average_rating = column_property(
+        select(func.coalesce(func.avg(Review.rating), 0))
+        .where(Review.movie_id == id)
+        .correlate_except(Review)
+        .scalar_subquery()
+    )
     def __str__(self):
         return f'Movie: {self.title}'
 
