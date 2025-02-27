@@ -4,7 +4,7 @@ from datetime import datetime
 
 import uvicorn
 from app.database import engine
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
@@ -55,5 +55,5 @@ app.include_router(router_users)
 app.include_router(router_reviews)
 app.include_router(router_images)
 
-# if __name__ == "__main__":
-#     uvicorn.run(app)
+if __name__ == "__main__":
+    uvicorn.run(app)

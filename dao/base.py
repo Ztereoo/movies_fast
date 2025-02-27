@@ -1,7 +1,9 @@
 from fastapi import HTTPException
 from sqlalchemy import insert, select
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.database import async_session_maker
+from app.logger import logger
 
 
 class BaseDao:
@@ -19,10 +21,17 @@ class BaseDao:
 
     @classmethod
     async def find_by_id(cls, model_id: int):
-        async with async_session_maker() as session:
-            stmt = select(cls.model).filter_by(id=model_id)
-            result = await session.execute(stmt)
-            return result.scalar_one_or_none()
+        try:
+            async with async_session_maker() as session:
+                stmt = select(cls.model).filter_by(id=model_id)
+                result = await session.execute(stmt)
+                return result.scalar_one_or_none()
+        except(SQLAlchemyError, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database exc: cannot execute data"
+            else:
+                msg = f"Unknown error {e} no data"
+            logger.error(msg, exc_info=True)
 
     @classmethod
     async def find_selected(cls, **data):
