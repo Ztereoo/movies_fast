@@ -3,11 +3,16 @@ from sqlalchemy.ext.asyncio import (AsyncSession, async_sessionmaker,
                                     create_async_engine)
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
+from urllib.parse import urlparse
+
 from config import MODE
 
 DATABASE_URL = "sqlite+aiosqlite:///movies.db"
 
 DATABASE_TEST_URL = "sqlite+aiosqlite:///test_movies.db"
+
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://","postgres+asyncpg://")
 
 if MODE == 'TEST':
     DATABASE_URL = DATABASE_TEST_URL
