@@ -1,6 +1,5 @@
 import time
 from contextlib import asynccontextmanager
-from datetime import datetime
 
 import uvicorn
 from app.database import engine
@@ -11,6 +10,7 @@ from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 from sqladmin import Admin
 from app.logger import logger
+import sentry_sdk
 
 from app.admin.views import MovieAdmin, ReviewAdmin, UserAdmin
 from app.images.router import router as router_images
@@ -27,8 +27,12 @@ async def lifespan(app: FastAPI):
     yield
     await redis.close()
 
-
 app = FastAPI(lifespan=lifespan)
+
+sentry_sdk.init(
+    dsn="https://90d64b06bec8b5d21e9b0897f8697c37@o4508892609445888.ingest.de.sentry.io/4508892611280976",
+    send_default_pii=True,
+)
 
 admin = Admin(app, engine)
 

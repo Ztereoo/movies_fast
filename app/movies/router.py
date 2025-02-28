@@ -64,6 +64,3 @@ async def add_from_file(file: UploadFile = File(...)):
     await Movies_Dao.add_csv_data(movies)
     return f"Movies successfully added to db"
 
-
-
-
