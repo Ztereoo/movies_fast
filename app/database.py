@@ -1,3 +1,4 @@
+import os
 from sqlalchemy import NullPool
 from sqlalchemy.ext.asyncio import (AsyncSession, async_sessionmaker,
                                     create_async_engine)
@@ -5,21 +6,21 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from urllib.parse import urlparse
 
-from config import MODE
+MODE = os.getenv("MODE", "DEV")
 
 DATABASE_URL = "sqlite+aiosqlite:///movies.db"
 
 DATABASE_TEST_URL = "sqlite+aiosqlite:///test_movies.db"
 
 if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://","postgres+asyncpg://")
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgres+asyncpg://")
 
 if MODE == 'TEST':
     DATABASE_URL = DATABASE_TEST_URL
-    DATABASE_PARAMS= {"poolclass": NullPool}
+    DATABASE_PARAMS = {"poolclass": NullPool}
 else:
     DATABASE_URL = DATABASE_URL
-    DATABASE_PARAMS={}
+    DATABASE_PARAMS = {}
 
 engine = create_async_engine(DATABASE_URL, **DATABASE_PARAMS)
 
