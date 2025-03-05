@@ -6,7 +6,16 @@ from pydantic import EmailStr
 
 from app.tasks.celery import celery
 from app.tasks.email_templates import email_new_user_created
-from config import SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+SMTP_HOST= os.getenv("SMTP_HOST")
+SMTP_PASS= os.getenv("SMTP_PASS")
+SMTP_PORT= os.getenv("SMTP_PORT")
+SMTP_USER= os.getenv("SMTP_USER")
+
 
 
 @celery.task
