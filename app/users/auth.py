@@ -1,5 +1,7 @@
+import os
 from datetime import datetime, timedelta
 
+from dotenv import load_dotenv
 from fastapi import HTTPException
 from jose import jwt
 from passlib.context import CryptContext
@@ -7,13 +9,10 @@ from pydantic import EmailStr
 
 from app.users.dao import UserDao
 
-import os
-from dotenv import load_dotenv
-
 load_dotenv()
 
-ALGORITHM= os.getenv("ALGORITHM")
-KEY= os.getenv("KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+KEY = os.getenv("KEY")
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -30,7 +29,7 @@ def verify_password(plain_password, hashed_password):
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=30)
-    to_encode.update({'exp': expire})
+    to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(
         to_encode,
         KEY,
@@ -42,8 +41,7 @@ def create_access_token(data: dict) -> str:
 async def authenticate_user(email: EmailStr, password: str):
     user = await UserDao.find_selected(email=email)
     if not user:
-        raise HTTPException(status_code=401, detail='No such user')
+        raise HTTPException(status_code=401, detail="No such user")
     if not verify_password(password, user.hashed_password):
-        raise HTTPException(status_code=401, detail='Incorrect password')
+        raise HTTPException(status_code=401, detail="Incorrect password")
     return user
-

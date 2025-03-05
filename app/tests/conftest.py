@@ -1,7 +1,9 @@
 import asyncio
 import json
+import os
 
 import pytest
+from dotenv import load_dotenv
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from sqlalchemy import insert
@@ -11,23 +13,21 @@ from app.main import app as fastapi_app
 from app.movies.models import Movie
 from app.reviews.models import Review
 from app.users.models import User
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 
-MODE= os.getenv("MODE")
+MODE = os.getenv("MODE")
 
 
 @pytest.fixture(scope="session", autouse=True)
 async def prepare_database():
-    assert MODE == 'TEST'
+    assert MODE == "TEST"
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
     def open_mock(model: str):
-        with open(f'app/tests/mock_{model}.json', 'r', encoding='utf-8') as file:
+        with open(f"app/tests/mock_{model}.json", "r", encoding="utf-8") as file:
             return json.load(file)
 
     movies = open_mock("movies")
@@ -63,9 +63,3 @@ async def ac():
 async def session():
     async with async_session_maker() as session:
         yield session
-
-
-
-
-
-
