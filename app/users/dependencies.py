@@ -4,7 +4,14 @@ from fastapi import Depends, HTTPException, Request
 from jose import JWTError, jwt
 
 from app.users.dao import UserDao
-from config import ALGORITHM, KEY
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ALGORITHM= os.getenv("ALGORITHM")
+KEY= os.getenv("KEY")
 
 
 def get_token(request: Request):
