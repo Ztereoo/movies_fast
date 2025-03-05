@@ -2,8 +2,12 @@ from email.message import EmailMessage
 
 from pydantic import EmailStr
 
-from config import SMTP_USER
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+SMTP_USER = os.getenv("SMTP_USER")
 
 def email_new_user_created(
         user: dict,
