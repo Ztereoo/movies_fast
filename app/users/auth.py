@@ -6,7 +6,15 @@ from passlib.context import CryptContext
 from pydantic import EmailStr
 
 from app.users.dao import UserDao
-from config import ALGORITHM, KEY
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ALGORITHM= os.getenv("ALGORITHM")
+KEY= os.getenv("KEY")
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
