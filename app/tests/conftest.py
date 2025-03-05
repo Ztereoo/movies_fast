@@ -11,7 +11,12 @@ from app.main import app as fastapi_app
 from app.movies.models import Movie
 from app.reviews.models import Review
 from app.users.models import User
-from config import MODE
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+MODE= os.getenv("MODE")
 
 
 @pytest.fixture(scope="session", autouse=True)
