@@ -3,4 +3,4 @@ from dao.base import BaseDao
 
 
 class Movies_Dao(BaseDao):
-    model=Movie
+    model = Movie

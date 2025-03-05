@@ -11,7 +11,7 @@ class UserAdmin(ModelView, model=User):
     can_delete = False
     name = "User"
     name_plural = "Users"
-    icon = 'fa-solid fa-user'
+    icon = "fa-solid fa-user"
     page_size = 10
     page_size_options = [10, 25, 50]
 
@@ -25,9 +25,8 @@ class MovieAdmin(ModelView, model=Movie):
 
 
 class ReviewAdmin(ModelView, model=Review):
-    column_list = [c.name for c in Review.__table__.c]+ [Review.user]+ [Review.movie]
-    name='Review'
-    name_plural = 'Reviews'
+    column_list = [c.name for c in Review.__table__.c] + [Review.user] + [Review.movie]
+    name = "Review"
+    name_plural = "Reviews"
     page_size = 10
     page_size_options = [10, 25, 50]
-

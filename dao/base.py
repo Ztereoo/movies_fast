@@ -26,7 +26,7 @@ class BaseDao:
                 stmt = select(cls.model).filter_by(id=model_id)
                 result = await session.execute(stmt)
                 return result.scalar_one_or_none()
-        except(SQLAlchemyError, Exception) as e:
+        except (SQLAlchemyError, Exception) as e:
             if isinstance(e, SQLAlchemyError):
                 msg = "Database exc: cannot execute data"
             else:
