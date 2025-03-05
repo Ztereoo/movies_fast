@@ -1,8 +1,14 @@
 import logging
 from datetime import datetime
-
+import os
+from dotenv import load_dotenv
 from pythonjsonlogger import jsonlogger
-from config import LOG_LEVEL
+
+load_dotenv()
+
+LOG_LEVEL = os.getenv("LOG_LEVEL")
+
+
 
 logger = logging.getLogger()
 logHandler = logging.StreamHandler()
