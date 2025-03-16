@@ -12,13 +12,13 @@ from app.tasks.email_templates import email_new_user_created
 load_dotenv()
 SMTP_HOST = os.getenv("SMTP_HOST")
 SMTP_PASS = os.getenv("SMTP_PASS")
-SMTP_PORT = os.getenv("SMTP_PORT")
+SMTP_PORT = int(os.getenv("SMTP_PORT"))
 SMTP_USER = os.getenv("SMTP_USER")
 
 
 @celery.task
 def resize_pic(
-    path: str,
+        path: str,
 ):
     im_path = Path(path)
     img = Image.open(im_path)

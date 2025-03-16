@@ -4,8 +4,10 @@ from datetime import datetime
 from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, Request
 from jose import JWTError, jwt
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.users.dao import UserDao
+from app.database import get_session
 
 load_dotenv()
 
@@ -20,7 +22,7 @@ def get_token(request: Request):
     return token
 
 
-async def get_current_user(token: str = Depends(get_token)):
+async def get_current_user(token: str = Depends(get_token), session: AsyncSession = Depends(get_session)):
     try:
         payload = jwt.decode(token, KEY, ALGORITHM)
     except JWTError:
@@ -33,7 +35,7 @@ async def get_current_user(token: str = Depends(get_token)):
     if not user_id:
         raise HTTPException(status_code=401, detail="No id in payload")
 
-    user = await UserDao.find_by_id(user_id)
+    user = await UserDao.find_by_id(user_id, session)
     if not user:
         raise HTTPException(status_code=401, detail="No user")
     return user

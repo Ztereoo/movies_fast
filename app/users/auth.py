@@ -1,19 +1,22 @@
 import os
 from datetime import datetime, timedelta
 
+from fastapi import Depends
 from dotenv import load_dotenv
 from fastapi import HTTPException
 from jose import jwt
 from passlib.context import CryptContext
 from pydantic import EmailStr
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.users.dao import UserDao
+from app.database import get_session
 
 load_dotenv()
 
 ALGORITHM = os.getenv("ALGORITHM")
 KEY = os.getenv("KEY")
-
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -38,8 +41,8 @@ def create_access_token(data: dict) -> str:
     return encoded_jwt
 
 
-async def authenticate_user(email: EmailStr, password: str):
-    user = await UserDao.find_selected(email=email)
+async def authenticate_user(email: EmailStr, password: str, session: AsyncSession = Depends(get_session)):
+    user = await UserDao.find_selected(session, email=email)
     if not user:
         raise HTTPException(status_code=401, detail="No such user")
     if not verify_password(password, user.hashed_password):
