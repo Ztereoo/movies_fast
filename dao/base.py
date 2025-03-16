@@ -74,7 +74,7 @@ class BaseDao:
         item = await session.execute(stmt)
         item = item.scalars().one_or_none()
         if item:
-                await session.delete(item)
-                await session.commit()
-                return f"Item deleted"
+            await session.delete(item)
+            await session.commit()
+            return f"Item deleted"
         return HTTPException(status_code=400, detail="no item with such id")
